@@ -52,6 +52,7 @@ class StaffAdmin(TendenciBaseModelAdmin):
         )}),
     )
     form = StaffForm
+    ordering = ['-position']
     inlines = (FileAdmin,)
 
     class Media:

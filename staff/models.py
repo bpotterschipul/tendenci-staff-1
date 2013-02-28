@@ -11,6 +11,7 @@ from tendenci.core.perms.object_perms import ObjectPermission
 from staff.managers import StaffManager
 from tendenci.core.files.models import File
 from tendenci.core.site_settings.models import Setting
+from tendenci.libs.abstracts.models import OrderingBaseModel
 
 from django.core.management import call_command
 post_save = models.signals.post_save
@@ -19,7 +20,7 @@ def file_directory(instance, filename):
     filename = re.sub(r'[^a-zA-Z0-9._]+', '-', filename)
     return 'staff/%s' % (filename)
 
-class Staff(TendenciBaseModel):
+class Staff(TendenciBaseModel, OrderingBaseModel):
     name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=75)
     department = models.ForeignKey('Department', blank=True, null=True)
@@ -48,10 +49,10 @@ class Staff(TendenciBaseModel):
         return self.name
 
     class Meta:
-        permissions = (("view_staff","Can view staff"),)
+        permissions = (("view_staff", "Can view staff"),)
         verbose_name = 'Staff'
         verbose_name_plural = 'Staff'
-        get_latest_by = "-start_date"
+        get_latest_by = "-position"
 
     @models.permalink
     def get_absolute_url(self):
@@ -69,13 +70,13 @@ class Staff(TendenciBaseModel):
             return False
 
 class Department(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=200)
 
     def __unicode__(self):
         return self.name
 
 class Position(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=200)
 
     def __unicode__(self):
         return self.name
