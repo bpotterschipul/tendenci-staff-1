@@ -4,7 +4,7 @@ from os.path import splitext
 from django import forms
 
 from tendenci.core.perms.forms import TendenciBaseForm
-from addons.staff.models import Staff, StaffFile
+from staff.models import Staff, StaffFile
 #from tendenci.core.files.models import File
 from tinymce.widgets import TinyMCE
 

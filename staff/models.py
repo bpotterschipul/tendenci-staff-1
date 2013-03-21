@@ -8,7 +8,7 @@ from django.contrib.contenttypes import generic
 from tagging.fields import TagField
 from tendenci.core.perms.models import TendenciBaseModel
 from tendenci.core.perms.object_perms import ObjectPermission
-from addons.staff.managers import StaffManager
+from staff.managers import StaffManager
 from tendenci.core.files.models import File
 from tendenci.core.site_settings.models import Setting
 from tendenci.libs.abstracts.models import OrderingBaseModel

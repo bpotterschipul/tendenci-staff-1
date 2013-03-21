@@ -1,12 +1,12 @@
 from django.conf.urls.defaults import patterns, url
-from addons.staff.feeds import LatestEntriesFeed
+from staff.feeds import LatestEntriesFeed
 from tendenci.core.site_settings.utils import get_setting
 
 urlpath = get_setting('module', 'staff', 'staff_url')
 if not urlpath:
     urlpath = "staff"
 
-urlpatterns = patterns('addons.staff.views',
+urlpatterns = patterns('staff.views',
     url(r'^%s/$' % urlpath, 'search', name="staff"),
     url(r'^%s/search/$' % urlpath, 'search_redirect', name="staff.search"),
     url(r'^%s/feed/$' % urlpath, LatestEntriesFeed(), name='staff.feed'),
