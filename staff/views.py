@@ -13,7 +13,7 @@ from tendenci.core.files.utils import get_image
 from tendenci.core.site_settings.utils import get_setting
 from tendenci.core.perms.utils import has_perm
 from tendenci.core.perms.utils import get_query_filters, has_view_perm
-from addons.staff.models import Staff
+from staff.models import Staff
 
 
 def detail(request, slug=None, cv=None):

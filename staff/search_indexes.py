@@ -3,7 +3,7 @@ from haystack import site
 
 from tendenci.core.perms.indexes import TendenciBaseSearchIndex
 
-from addons.staff.models import Staff
+from staff.models import Staff
 
 class StaffIndex(TendenciBaseSearchIndex):
     name = indexes.CharField(model_attr='name')
