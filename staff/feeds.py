@@ -3,7 +3,7 @@ from tendenci.core.site_settings.utils import get_setting
 from tendenci.core.perms.utils import PUBLIC_FILTER
 from tendenci.core.sitemaps import TendenciSitemap
 
-from staff.models import Staff
+from addons.staff.models import Staff
 
 class LatestEntriesFeed(SubFeed):
     title =  '%s Latest Staff' % get_setting('site','global','sitedisplayname')
@@ -36,4 +36,4 @@ class StaffSitemap(TendenciSitemap):
         return items
 
     def lastmod(self, obj):
-        return obj.update_dt
+        return obj.start_date

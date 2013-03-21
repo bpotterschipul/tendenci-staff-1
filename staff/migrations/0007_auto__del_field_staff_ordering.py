@@ -8,20 +8,14 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Changing field 'Department.name'
-        db.alter_column('staff_department', 'name', self.gf('django.db.models.fields.CharField')(max_length=200))
-
-        # Changing field 'Position.name'
-        db.alter_column('staff_position', 'name', self.gf('django.db.models.fields.CharField')(max_length=200))
+        # Deleting field 'Staff.ordering'
+        db.delete_column('staff_staff', 'ordering')
 
 
     def backwards(self, orm):
         
-        # Changing field 'Department.name'
-        db.alter_column('staff_department', 'name', self.gf('django.db.models.fields.CharField')(max_length=50))
-
-        # Changing field 'Position.name'
-        db.alter_column('staff_position', 'name', self.gf('django.db.models.fields.CharField')(max_length=50))
+        # Adding field 'Staff.ordering'
+        db.add_column('staff_staff', 'ordering', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True), keep_default=False)
 
 
     models = {
@@ -40,7 +34,7 @@ class Migration(SchemaMigration):
         },
         'auth.user': {
             'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 2, 14, 18, 26, 57, 155227)'}),
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 3, 20, 4, 20, 45, 742146)'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
@@ -48,7 +42,7 @@ class Migration(SchemaMigration):
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 2, 14, 18, 26, 57, 155136)'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 3, 20, 4, 20, 45, 742048)'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
@@ -118,7 +112,7 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'entity': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'files_file_entity'", 'null': 'True', 'blank': 'True', 'to': "orm['entities.Entity']"}),
             'file': ('django.db.models.fields.files.FileField', [], {'max_length': '260'}),
-            'group': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['user_groups.Group']", 'null': 'True'}),
+            'group': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': "orm['user_groups.Group']", 'null': 'True'}),
             'guid': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_public': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
@@ -168,11 +162,11 @@ class Migration(SchemaMigration):
             'entity': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'staff_staff_entity'", 'null': 'True', 'blank': 'True', 'to': "orm['entities.Entity']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'ordering': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'staff_staff_owner'", 'null': 'True', 'to': "orm['auth.User']"}),
             'owner_username': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'personal_sites': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '25', 'null': 'True', 'blank': 'True'}),
+            'position': ('django.db.models.fields.IntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
             'positions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['staff.Position']", 'null': 'True', 'blank': 'True'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '75', 'db_index': 'True'}),
             'status': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
@@ -184,7 +178,7 @@ class Migration(SchemaMigration):
             'Meta': {'ordering': "('position',)", 'object_name': 'StaffFile', '_ormbases': ['files.File']},
             'file_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['files.File']", 'unique': 'True', 'primary_key': 'True'}),
             'photo_type': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'position': ('django.db.models.fields.IntegerField', [], {'blank': 'True'}),
+            'position': ('django.db.models.fields.IntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
             'staff': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['staff.Staff']"})
         },
         'user_groups.group': {

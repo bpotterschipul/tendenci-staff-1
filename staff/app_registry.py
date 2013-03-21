@@ -1,7 +1,7 @@
 from tendenci.core.registry import site
 from tendenci.core.registry.base import AppRegistry, lazy_reverse
 
-from staff.models import Staff
+from addons.staff.models import Staff
 
 
 class StaffRegistry(AppRegistry):

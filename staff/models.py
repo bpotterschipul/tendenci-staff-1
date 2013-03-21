@@ -8,7 +8,7 @@ from django.contrib.contenttypes import generic
 from tagging.fields import TagField
 from tendenci.core.perms.models import TendenciBaseModel
 from tendenci.core.perms.object_perms import ObjectPermission
-from staff.managers import StaffManager
+from addons.staff.managers import StaffManager
 from tendenci.core.files.models import File
 from tendenci.core.site_settings.models import Setting
 from tendenci.libs.abstracts.models import OrderingBaseModel
@@ -16,11 +16,12 @@ from tendenci.libs.abstracts.models import OrderingBaseModel
 from django.core.management import call_command
 post_save = models.signals.post_save
 
+
 def file_directory(instance, filename):
     filename = re.sub(r'[^a-zA-Z0-9._]+', '-', filename)
     return 'staff/%s' % (filename)
 
-class Staff(TendenciBaseModel, OrderingBaseModel):
+class Staff(OrderingBaseModel, TendenciBaseModel):
     name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=75)
     department = models.ForeignKey('Department', blank=True, null=True)
@@ -49,10 +50,22 @@ class Staff(TendenciBaseModel, OrderingBaseModel):
         return self.name
 
     class Meta:
-        permissions = (("view_staff", "Can view staff"),)
+        permissions = (("view_staff","Can view staff"),)
         verbose_name = 'Staff'
         verbose_name_plural = 'Staff'
         get_latest_by = "-position"
+
+    def save(self, *args, **kwargs):
+        if self.position is None:
+            # Append
+            try:
+                last = Staff.objects.order_by('-position')[0]
+                self.position = last.position + 1
+            except IndexError:
+                # First row
+                self.position = 0
+
+        return super(Staff, self).save(*args, **kwargs)
 
     @models.permalink
     def get_absolute_url(self):
@@ -75,13 +88,15 @@ class Department(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Position(models.Model):
     name = models.CharField(max_length=200)
 
     def __unicode__(self):
         return self.name
 
-class StaffFile(File):
+
+class StaffFile(OrderingBaseModel, File):
     staff = models.ForeignKey(Staff)
     photo_type = models.CharField(
         max_length=50,
@@ -89,7 +104,6 @@ class StaffFile(File):
             ('featured','Featured'),
             ('other','Other'),
         ))
-    position = models.IntegerField(blank=True)
 
     def save(self, *args, **kwargs):
         if self.position is None:

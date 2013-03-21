@@ -3,8 +3,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 
 from tendenci.core.perms.admin import TendenciBaseModelAdmin
-from staff.models import Staff, Position, Department, StaffFile
-from staff.forms import StaffForm, FileForm
+from addons.staff.models import Staff, Position, Department, StaffFile
+from addons.staff.forms import StaffForm, FileForm
 
 
 class FileAdmin(admin.StackedInline):
@@ -23,8 +23,9 @@ class FileAdmin(admin.StackedInline):
 
 
 class StaffAdmin(TendenciBaseModelAdmin):
-    list_display = ['name', 'slug', 'department', 'phone', 'status']
+    list_display = ['name', 'slug', 'department', 'phone', 'status', 'position']
     list_filter = ['department', 'status']
+    list_editable = ['position']
     search_fields = ['name', 'biography', 'cv']
     prepopulated_fields = {'slug': ['name']}
     fieldsets = (
@@ -61,6 +62,7 @@ class StaffAdmin(TendenciBaseModelAdmin):
             '%sjs/jquery_ui_all_custom/jquery-ui-1.8.5.custom.min.js' % settings.STATIC_URL,
             '%sjs/admin/staff-dynamic-sort.js' % settings.STATIC_URL,
             '%sjs/global/tinymce.event_handlers.js' % settings.STATIC_URL,
+            '%sjs/admin/admin-list-reorder.js' % settings.STATIC_URL,
         )
         css = {'all': ['%scss/admin/dynamic-inlines-with-sort.css' % settings.STATIC_URL], }
 
