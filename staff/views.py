@@ -13,7 +13,7 @@ from tendenci.core.files.utils import get_image
 from tendenci.core.site_settings.utils import get_setting
 from tendenci.core.perms.utils import has_perm
 from tendenci.core.perms.utils import get_query_filters, has_view_perm
-from staff.models import Staff
+from addons.staff.models import Staff
 
 
 def detail(request, slug=None, cv=None):
@@ -50,7 +50,7 @@ def search(request, template_name="staff/search.html"):
         if not request.user.is_anonymous():
             staff = staff.select_related()
 
-        staff = staff.order_by('name', '-status', 'status_detail')
+        staff = staff.order_by('-position', 'name', '-status', 'status_detail')
 
     EventLog.objects.log()
 
