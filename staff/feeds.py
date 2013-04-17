@@ -36,4 +36,4 @@ class StaffSitemap(TendenciSitemap):
         return items
 
     def lastmod(self, obj):
-        return obj.start_date
+        return obj.update_dt

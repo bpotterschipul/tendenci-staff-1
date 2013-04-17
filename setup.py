@@ -9,7 +9,7 @@ setup(
     name='tendenci-staff',
     author='Schipul',
     author_email='programmers@schipul.com',
-    version='1.0.3',
+    version='1.0.4',
     license='GPL3',
     description='Staff addon for Tendenci',
     long_description=longdesc,
