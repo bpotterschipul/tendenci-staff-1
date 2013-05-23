@@ -110,6 +110,7 @@ class StaffFile(OrderingBaseModel, File):
             # Append
             try:
                 last = StaffFile.objects.order_by('-position')[0]
+                last.position = last.position or 0
                 self.position = last.position + 1
             except IndexError:
                 # First row
