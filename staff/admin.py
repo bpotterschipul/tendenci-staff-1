@@ -23,9 +23,9 @@ class FileAdmin(admin.StackedInline):
 
 
 class StaffAdmin(TendenciBaseModelAdmin):
-    list_display = ['name', 'slug', 'department', 'phone', 'status', 'position']
+    list_display = ['slug', 'name', 'department', 'phone', 'status', 'position']
     list_filter = ['department', 'status']
-    list_editable = ['position']
+    list_editable = ['name', 'position', 'status']
     search_fields = ['name', 'biography', 'cv']
     prepopulated_fields = {'slug': ['name']}
     fieldsets = (
